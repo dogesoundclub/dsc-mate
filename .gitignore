@@ -18,5 +18,13 @@ package-lock.json
 *.log
 *.gz
 
+# local env variables
+.env
+
 # vscode
 .history
+
+# hardhat
+cache
+artifacts
+typechain
