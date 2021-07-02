@@ -1,5 +1,5 @@
-# dsc-contracts
-도지사운드클럽 스마트계약 저장소
+# DogeSoundClub NFT
+도지사운드클럽 NFT 스마트계약 저장소
 
 ## Standard
 [KIP-17](https://kips.klaytn.com/KIPs/kip-17)
