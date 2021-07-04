@@ -5,12 +5,12 @@ import "./klaytn-contracts/token/KIP17/KIP17Mintable.sol";
 import "./klaytn-contracts/token/KIP17/KIP17Burnable.sol";
 import "./klaytn-contracts/token/KIP17/KIP17Pausable.sol";
 
-contract DogeSoundClubNFT is KIP17Full("Doge Sound Club NFT", "DSC"), KIP17Mintable, KIP17Burnable, KIP17Pausable {
+contract DogeSoundClubMate is KIP17Full("DOGESOUNDCLUB MATES", "MATE"), KIP17Mintable, KIP17Burnable, KIP17Pausable {
 
     function tokenURI(uint256 tokenId) public view returns (string memory) {
         require(_exists(tokenId), "KIP17Metadata: URI query for nonexistent token");
 
-        string memory baseURI = "https://api.dogesound.club/nft/";
+        string memory baseURI = "https://api.dogesound.club/mate/";
 
         string memory idstr;
         if (tokenId == 0) {
