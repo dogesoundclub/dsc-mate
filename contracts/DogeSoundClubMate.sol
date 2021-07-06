@@ -32,4 +32,10 @@ contract DogeSoundClubMate is KIP17Full("DOGESOUNDCLUB MATES", "MATE"), KIP17Min
 
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, idstr)) : "";
     }
+
+    function massMint() external onlyMinter {
+        for (uint256 i = 0; i < 10000; i += 1) {
+            mint(i, msg.sender);
+        }
+    }
 }
