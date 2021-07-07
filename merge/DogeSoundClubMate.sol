@@ -1083,43 +1083,6 @@ contract MinterRole {
 }
 
 /**
- * @title KIP17MetadataMintable
- * @dev KIP17 minting logic with metadata.
- */
-contract KIP17MetadataMintable is KIP13, KIP17, KIP17Metadata, MinterRole {
-    /*
-     *     bytes4(keccak256('mintWithTokenURI(address,uint256,string)')) == 0x50bb4e7f
-     *     bytes4(keccak256('isMinter(address)')) == 0xaa271e1a
-     *     bytes4(keccak256('addMinter(address)')) == 0x983b2d56
-     *     bytes4(keccak256('renounceMinter()')) == 0x98650275
-     *
-     *     => 0x50bb4e7f ^ 0xaa271e1a ^ 0x983b2d56 ^ 0x98650275 == 0xfac27f46
-     */
-    bytes4 private constant _INTERFACE_ID_KIP17_METADATA_MINTABLE = 0xfac27f46;
-
-    /**
-     * @dev Constructor function.
-     */
-    constructor () public {
-        // register the supported interface to conform to KIP17Mintable via KIP13
-        _registerInterface(_INTERFACE_ID_KIP17_METADATA_MINTABLE);
-    }
-
-    /**
-     * @dev Function to mint tokens.
-     * @param to The address that will receive the minted tokens.
-     * @param tokenId The token id to mint.
-     * @param tokenURI The token URI of the minted token.
-     * @return A boolean that indicates if the operation was successful.
-     */
-    function mintWithTokenURI(address to, uint256 tokenId, string memory tokenURI) public onlyMinter returns (bool) {
-        _mint(to, tokenId);
-        _setTokenURI(tokenId, tokenURI);
-        return true;
-    }
-}
-
-/**
  * @title KIP17Mintable
  * @dev KIP17 minting logic.
  */
@@ -1334,10 +1297,42 @@ contract KIP17Pausable is KIP13, KIP17, Pausable {
     }
 }
 
-contract KIP17Token is KIP17Full, KIP17Mintable, KIP17MetadataMintable, KIP17Burnable, KIP17Pausable {
-    constructor (string memory name, string memory symbol) public KIP17Full(name, symbol) {
-    }
-}
+contract DogeSoundClubMate is KIP17Full("DOGESOUNDCLUB MATES", "MATE"), KIP17Mintable, KIP17Burnable, KIP17Pausable {
 
-contract DogeSoundClubNFT is KIP17Token("Doge Sound Club NFT", "DSC") {
+    string public ipfs = "";
+
+    function tokenURI(uint256 tokenId) public view returns (string memory) {
+        require(_exists(tokenId), "KIP17Metadata: URI query for nonexistent token");
+
+        string memory baseURI = "https://api.dogesound.club/mate/";
+
+        string memory idstr;
+        if (tokenId == 0) {
+            return "0";
+        }
+        uint256 temp = tokenId;
+        uint256 digits;
+        while (temp != 0) {
+            digits += 1;
+            temp /= 10;
+        }
+        bytes memory buffer = new bytes(digits);
+        while (tokenId != 0) {
+            digits -= 1;
+            buffer[digits] = bytes1(uint8(48 + uint256(tokenId % 10)));
+            tokenId /= 10;
+        }
+        idstr = string(buffer);
+
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, idstr)) : "";
+    }
+
+    // lv is 1~16
+    function massMint(uint256 lv) external onlyMinter {
+        uint256 from = 625 * (lv - 1);
+        uint256 to = 625 * lv;
+        for (uint256 i = from; i < to; i += 1) {
+            mint(msg.sender, i);
+        }
+    }
 }
