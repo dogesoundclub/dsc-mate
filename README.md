@@ -8,7 +8,7 @@
 - Batch Transfer
 
 ## Baobab
-0x75E7363Ff9790cbEf6d58b585aBf3B6a77383edb
+0x150489952a5082D5983b1d78f2f00450AddF6693
 
 ## License
 [MIT](LICENSE)
