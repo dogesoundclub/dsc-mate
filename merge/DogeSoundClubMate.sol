@@ -1299,17 +1299,19 @@ contract KIP17Pausable is KIP13, KIP17, Pausable {
 
 contract DogeSoundClubMate is KIP17Full("DOGESOUNDCLUB MATES", "MATE"), KIP17Mintable, KIP17Burnable, KIP17Pausable {
 
-    string public ipfs = "";
+    string public hash = "6110b42d1575f2bfb80a98cb6ce7d6743fa249b6ee2be08467487c12f5f95753";
+    string public ipfs = "QmfTimyAQTQjQsnvECn9U44LdnPzSDF2XREoP2WFdjHitQ";
 
     function tokenURI(uint256 tokenId) public view returns (string memory) {
         require(_exists(tokenId), "KIP17Metadata: URI query for nonexistent token");
+        
+        if (tokenId == 0) {
+            return "https://api.dogesound.club/mate/0";
+        }
 
         string memory baseURI = "https://api.dogesound.club/mate/";
-
         string memory idstr;
-        if (tokenId == 0) {
-            return "0";
-        }
+        
         uint256 temp = tokenId;
         uint256 digits;
         while (temp != 0) {
@@ -1325,6 +1327,13 @@ contract DogeSoundClubMate is KIP17Full("DOGESOUNDCLUB MATES", "MATE"), KIP17Min
         idstr = string(buffer);
 
         return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, idstr)) : "";
+    }
+
+    function bulkTransfer(address[] calldata tos, uint256[] calldata ids) external {
+        uint256 length = ids.length;
+        for (uint256 i = 0; i < length; i += 1) {
+            transferFrom(msg.sender, tos[i], ids[i]);
+        }
     }
 
     // lv is 1~16
