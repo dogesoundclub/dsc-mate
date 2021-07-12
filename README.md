@@ -4,8 +4,8 @@
 ## Standard
 [KIP-17](https://kips.klaytn.com/KIPs/kip-17)
 
-## 추가로 필요한 내용
-- Batch Transfer
+## Mainnet
+0xe47e90c58f8336a2f24bcd9bcb530e2e02e1e8ae
 
 ## Baobab
 0x150489952a5082D5983b1d78f2f00450AddF6693
